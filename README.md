@@ -1,4 +1,4 @@
-# DeepAudio
+# DeepDreamSound
 Repository of the Dolby project
 ## Overview
 
