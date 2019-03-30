@@ -411,10 +411,10 @@ class SincNet(nn.Module):
         seq_len = x.shape[1]
 
         if bool(self.cnn_use_laynorm_inp):
-            x = self.ln0((x))
+            x = self.ln0(x)
 
         if bool(self.cnn_use_batchnorm_inp):
-            x = self.bn0((x))
+            x = self.bn0(x)
 
         x = x.view(batch, 1, seq_len)
 
@@ -430,7 +430,7 @@ class SincNet(nn.Module):
             if self.cnn_use_batchnorm[i]:
                 x = self.drop[i](self.act[i](self.bn[i](F.max_pool1d(self.conv[i](x), self.cnn_max_pool_len[i]))))
 
-            if self.cnn_use_batchnorm[i] == False and self.cnn_use_laynorm[i] == False:
+            if not self.cnn_use_batchnorm[i] and not self.cnn_use_laynorm[i]:
                 x = self.drop[i](self.act[i](F.max_pool1d(self.conv[i](x), self.cnn_max_pool_len[i])))
 
         x = x.view(batch, -1)

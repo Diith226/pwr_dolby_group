@@ -1,3 +1,4 @@
+from functools import partial
 from pathlib import Path
 from typing import *
 
@@ -9,14 +10,13 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from torch.autograd import Variable
 
+import constants
 from data_io import read_conf_inp, str_to_bool
 from dnn_models import MLP
 from dnn_models import SincNet as CNN
 
 cfg_file = Path("cfg") / "SincNet_TIMIT.cfg"  # Config file of the speaker-id experiment used to generate the model
 energy_threshold = 0.1  # Avoid frames with an energy that is 1/10 over the average energy
-
-use_cuda = torch.cuda.is_available()
 
 # Reading cfg file
 options = read_conf_inp(cfg_file)
@@ -68,21 +68,34 @@ class DataLoader(TransformerMixin, BaseEstimator):
 
 
 class DeepDream(TransformerMixin, BaseEstimator):
-    def __init__(self, model_path: str, number_of_chunks: int, verbose: bool = False):
-        self.cnn_net: Optional[nn.Module] = None
-        self.dnn_net: Optional[nn.Module] = None
+    def __init__(self,
+                 layer_name: str,
+                 model_path: str,
+                 number_of_chunks: int = constants.DEFAULT_NUMBER_OF_CHUNKS,
+                 use_gpu: bool = False,
+                 verbose: bool = False):
+        self._cnn_net: Optional[nn.Module] = None
+        self._dnn_net: Optional[nn.Module] = None
+        self._available_layers: Dict[str, torch.FloatTensor] = {}
+        self._available_layer_names: List[str] = []
 
+        self.layer_name = layer_name
         self.verbose = verbose
         self.number_of_chunks = number_of_chunks
+        self.layer_name = layer_name
+        self.use_gpu = use_gpu
 
         if self.verbose:
             print("Loading model ...")
-        self.load_model(model_path)
+        self._load_model(model_path)
 
     def fit(self, x, y, **fit_params):
         return self
 
-    def load_model(self, model_path: str):
+    def _register_layer_output(self, module, input_, output, layer_name):
+        self._available_layers[layer_name] = output
+
+    def _load_model(self, model_path: str):
         cnn_arch = {'input_dim': window_length,
                     'fs': sampling_rate,
                     'cnn_N_filt': cnn_N_filt,
@@ -95,9 +108,9 @@ class DeepDream(TransformerMixin, BaseEstimator):
                     'cnn_act': cnn_act,
                     'cnn_drop': cnn_drop,
                     }
-        self.cnn_net = CNN(cnn_arch)
+        self._cnn_net = CNN(cnn_arch)
 
-        dnn_arch = {'input_dim': self.cnn_net.out_dim,
+        dnn_arch = {'input_dim': self._cnn_net.out_dim,
                     'fc_lay': fc_layer_sizes,
                     'fc_drop': fc_drop,
                     'fc_use_batchnorm': fc_use_batchnorm,
@@ -107,25 +120,37 @@ class DeepDream(TransformerMixin, BaseEstimator):
                     'fc_act': fc_act,
                     }
 
-        self.dnn_net = MLP(dnn_arch)
+        self._dnn_net = MLP(dnn_arch)
 
         checkpoint_load = torch.load(model_path)
-        self.cnn_net.load_state_dict(checkpoint_load['CNN_model_par'])
-        self.dnn_net.load_state_dict(checkpoint_load['DNN1_model_par'])
+        self._cnn_net.load_state_dict(checkpoint_load['CNN_model_par'])
+        self._dnn_net.load_state_dict(checkpoint_load['DNN1_model_par'])
 
-        self.cnn_net.eval()
-        self.dnn_net.eval()
+        self._cnn_net.eval()
+        self._dnn_net.eval()
 
-        if use_cuda:
-            self.cnn_net.cuda()
-            self.dnn_net.cuda()
+        for i, layer in enumerate(self._cnn_net.act):
+            layer_name = f"conv_{i}"
+            current_register = partial(self._register_layer_output, layer_name=layer_name)
+            self._available_layer_names.append(layer_name)
+            layer.register_forward_hook(current_register)
+
+        for i, layer in enumerate(self._dnn_net.act):
+            layer_name = f"dense_{i}"
+            current_register = partial(self._register_layer_output, layer_name=layer_name)
+            self._available_layer_names.append(layer_name)
+            layer.register_forward_hook(current_register)
+
+        if self.use_gpu:
+            self._cnn_net.cuda()
+            self._dnn_net.cuda()
 
     def transform(self, x: Iterable[Tuple[np.ndarray, float]]) -> Iterable[Tuple[Optional[np.ndarray], float]]:
         with torch.no_grad():
             output = []
             for signal, sample_rate in x:
                 signal = torch.from_numpy(signal).float().contiguous()
-                if use_cuda:
+                if self.use_gpu:
                     signal = signal.cuda()
 
                 # split signals into chunks
@@ -138,7 +163,7 @@ class DeepDream(TransformerMixin, BaseEstimator):
                 vector_dim = fc_layer_sizes[-1]
                 vectors = Variable(torch.zeros(number_of_frames, vector_dim).float().contiguous())
 
-                if use_cuda:
+                if self.use_gpu:
                     signal_array = signal_array.cuda()
                     vectors = vectors.cuda()
 
@@ -155,23 +180,24 @@ class DeepDream(TransformerMixin, BaseEstimator):
                         network_input = Variable(signal_array)
 
                         vectors[vectors_output_offset:vectors_output_offset + len(signal_array)] = \
-                            self.dnn_net(self.cnn_net(network_input))
+                            self._dnn_net(self._cnn_net(network_input))
 
                         vectors_output_offset += len(signal_array)
                         frame_count = 0
 
                         signal_array = torch.zeros([self.number_of_chunks, window_length]).float().contiguous()
-                        if use_cuda:
+                        if self.use_gpu:
                             signal_array = signal_array.cuda()
 
                 if frame_count > 0:
                     network_input = Variable(signal_array[:frame_count])
                     vectors[vectors_output_offset:] = \
-                        self.dnn_net(self.cnn_net(network_input))
+                        self._dnn_net(self._cnn_net(network_input))
 
                 # averaging and normalizing all the d-vectors
                 predictions = torch.mean(vectors / vectors.norm(p=2, dim=1).view(-1, 1), dim=0)
-                if use_cuda:
+
+                if self.use_gpu:
                     predictions = predictions.cpu()
 
                 # checks for nan
@@ -188,7 +214,12 @@ class DeepDream(TransformerMixin, BaseEstimator):
 def get_processing_pipeline(model_path: str) -> Pipeline:
     return Pipeline([
         ("data load", DataLoader()),
-        ("deep dream", DeepDream(model_path, 128))
+        ("deep dream", DeepDream(
+            layer_name="first",
+            model_path=model_path,
+            verbose=True,
+            use_gpu=False
+        ))
     ])
 
 
