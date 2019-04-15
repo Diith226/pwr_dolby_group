@@ -17,7 +17,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("DeepDreamSound")
         Form.resize(1020, 450)
-        Ł
+        
 
         self.groupBox = QtWidgets.QGroupBox(Form)
         self.groupBox.setGeometry(QtCore.QRect(70, 25, 530, 80))
