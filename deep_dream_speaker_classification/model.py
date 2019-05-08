@@ -48,17 +48,17 @@ class Classifier(nn.Module):
         super().__init__()
 
         self.layers_blocks = OrderedDict((
-            ("residual_1a", ResidualBlock2d(2, 16, 7, 2)),
-            ("pool_1", nn.AvgPool2d((2, 2))),
+            ("residual_1a", ResidualBlock2d(1, 16, 7, 2)),
+            ("pool_1", nn.MaxPool2d((2, 2))),
             ("residual_2a", ResidualBlock2d(16, 64, 3, 1)),
             ("residual_2b", ResidualBlock2d(64, 64, 3, 1)),
-            ("pool_2", nn.AvgPool2d((2, 2))),
+            ("pool_2", nn.MaxPool2d((2, 2))),
             ("residual_3a", ResidualBlock2d(64, 128, 3, 1)),
             ("residual_3b", ResidualBlock2d(128, 128, 3, 1)),
-            ("pool_3", nn.AvgPool2d((2, 2))),
+            ("pool_3", nn.MaxPool2d((2, 2))),
             ("residual_4a", ResidualBlock2d(128, 256, 3, 1)),
             ("residual_4b", ResidualBlock2d(256, 256, 3, 1)),
-            ("pool_4", nn.AvgPool2d((2, 2))),
+            ("pool_4", nn.MaxPool2d((2, 2))),
             ("residual_5a", ResidualBlock2d(256, 256, 3, 1)),
             ("residual_5b", ResidualBlock2d(256, 256, 3, 1)),
         ))
