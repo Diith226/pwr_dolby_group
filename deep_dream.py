@@ -231,8 +231,8 @@ def get_processing_pipeline(use_better_slower_model=True, dreamstream=None) -> P
             use_gpu=False,
             stream=dreamstream
         )),
-        ("denormalize", Denormalize(use_slower_better_model=use_better_slower_model)),
-        ("data saver", SaveResult(".", "audio"))
+        ("denormalize", Denormalize(use_slower_better_model=use_better_slower_model))
+        #("data saver", SaveResult(".", "audio"))
     ])
 
 

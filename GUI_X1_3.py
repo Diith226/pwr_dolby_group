@@ -4,7 +4,7 @@
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
-# WARNING! All changes made in this file will be lost!
+# WARNING! All changes made in this file will be lost!Ł
 
 import _thread
 import time
@@ -14,7 +14,7 @@ import librosa
 import librosa.display
 import scipy.signal
 import sounddevice as sd
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import QFileDialog
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -23,70 +23,129 @@ import deep_dream
 import stream_dream
 
 
+class Ui_DeepDreamSound(object):
+    '''=============================='''
+    '''!       Widgets Setup        !'''
+    '''=============================='''
 
-
-class Ui_Form(object):
-    def setupUi(self, Form, width, height):
-        Form.setObjectName("Form")
-        window_width = width / 2
-        window_height = height / 2
-        Form.resize(window_width, window_height - 100)
-        self.audio_playing = False
-        self.audio_loaded = False
-
-        self.groupBox = QtWidgets.QGroupBox(Form)
-        self.groupBox.setGeometry(QtCore.QRect(40, 10, window_width / 2, 80))
-        self.groupBox.setObjectName("groupBox")
-
-        self.horizontalLayoutWidget = QtWidgets.QWidget(self.groupBox)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 20, window_width / 2 - 50, 51))
-        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-
-        self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-
-        self.toolButton = QtWidgets.QToolButton(self.horizontalLayoutWidget)
-        self.toolButton.setObjectName("toolButton")
-        self.toolButton.clicked.connect(self.new_threadLoadFile)
-
-        self.horizontalLayout.addWidget(self.toolButton)
-
-        self.lineEdit = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit.setEnabled(False)
-
-        self.horizontalLayout.addWidget(self.lineEdit)
-
-        self.playConvButt = QtWidgets.QPushButton(Form)
-        self.playConvButt.setGeometry(QtCore.QRect(3 * window_width / (2 * 2.2) + 90 - window_width / (2 * 10),
-                                                   window_height / 1.5 + 100, window_width / 10, window_height / 10))
-        self.playConvButt.setObjectName("playConvButt")
-        self.playConvButt.clicked.connect(self.playDrmNewThread)
-
-        self.convButton = QtWidgets.QPushButton(Form)
-        self.convButton.setGeometry(QtCore.QRect(window_width / 2 + 80, 30, window_width / 5, 51))
-        self.convButton.setObjectName("convButton")
-        self.convButton.clicked.connect(self.dream)
-
-        self.playOrgButt = QtWidgets.QPushButton(Form)
-        self.playOrgButt.setGeometry(QtCore.QRect(50 + window_width / (2 * 2.2) - window_width / (2 * 10),
-                                                  window_height / 1.5 + 100, window_width / 10, window_height / 10))
+    def setupUi(self, DeepDreamSound):
+        DeepDreamSound.setObjectName("DeepDreamSound")
+        DeepDreamSound.resize(993, 701)
+        DeepDreamSound.setMinimumSize(QtCore.QSize(769, 618))
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(DeepDreamSound)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.tabWidget = QtWidgets.QTabWidget(DeepDreamSound)
+        self.tabWidget.setMinimumSize(QtCore.QSize(0, 121))
+        self.tabWidget.setMaximumSize(QtCore.QSize(16777215, 121))
+        self.tabWidget.setTabBarAutoHide(True)
+        self.tabWidget.setObjectName("tabWidget")
+        self.filePathTab = QtWidgets.QWidget()
+        self.filePathTab.setObjectName("filePathTab")
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.filePathTab)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.filePathLayout = QtWidgets.QHBoxLayout()
+        self.filePathLayout.setObjectName("filePathLayout")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.filePathLayout.addItem(spacerItem)
+        self.filePathButt = QtWidgets.QToolButton(self.filePathTab)
+        self.filePathButt.setObjectName("filePathButt")
+        self.filePathLayout.addWidget(self.filePathButt)
+        self.pathView = QtWidgets.QLineEdit(self.filePathTab)
+        self.pathView.setEnabled(False)
+        self.pathView.setObjectName("pathView")
+        self.filePathLayout.addWidget(self.pathView)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.filePathLayout.addItem(spacerItem1)
+        self.startDreamButt = QtWidgets.QPushButton(self.filePathTab)
+        self.startDreamButt.setEnabled(True)
+        self.startDreamButt.setMinimumSize(QtCore.QSize(111, 41))
+        self.startDreamButt.setMaximumSize(QtCore.QSize(16777215, 41))
+        self.startDreamButt.setObjectName("startDreamButt")
+        self.filePathLayout.addWidget(self.startDreamButt)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.filePathLayout.addItem(spacerItem2)
+        self.saveDreamButt = QtWidgets.QPushButton(self.filePathTab)
+        self.saveDreamButt.setMinimumSize(QtCore.QSize(111, 41))
+        self.saveDreamButt.setMaximumSize(QtCore.QSize(16777215, 41))
+        self.saveDreamButt.setObjectName("saveDreamButt")
+        self.filePathLayout.addWidget(self.saveDreamButt)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.filePathLayout.addItem(spacerItem3)
+        self.verticalLayout_3.addLayout(self.filePathLayout)
+        self.tabWidget.addTab(self.filePathTab, "")
+        self.dreamSettingsTab = QtWidgets.QWidget()
+        self.dreamSettingsTab.setObjectName("dreamSettingsTab")
+        self.tabWidget.addTab(self.dreamSettingsTab, "")
+        self.verticalLayout_7.addWidget(self.tabWidget)
+        self.label1 = QtWidgets.QLabel(DeepDreamSound)
+        self.label1.setMinimumSize(QtCore.QSize(171, 31))
+        font = QtGui.QFont()
+        font.setFamily("Mongolian Baiti")
+        font.setPointSize(11)
+        self.label1.setFont(font)
+        self.label1.setObjectName("label1")
+        self.verticalLayout_7.addWidget(self.label1, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom)
+        self.canvasOrg = QtWidgets.QVBoxLayout()
+        self.canvasOrg.setObjectName("canvasOrg")
+        self.verticalLayout_7.addLayout(self.canvasOrg)
+        self.label2 = QtWidgets.QLabel(DeepDreamSound)
+        self.label2.setMinimumSize(QtCore.QSize(171, 31))
+        font = QtGui.QFont()
+        font.setFamily("Mongolian Baiti")
+        font.setPointSize(11)
+        self.label2.setFont(font)
+        self.label2.setObjectName("label2")
+        self.verticalLayout_7.addWidget(self.label2, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignBottom)
+        self.canvasConv = QtWidgets.QVBoxLayout()
+        self.canvasConv.setObjectName("canvasConv")
+        self.verticalLayout_7.addLayout(self.canvasConv)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.verticalLayout_7.addItem(spacerItem4)
+        self.playerButtLayout = QtWidgets.QHBoxLayout()
+        self.playerButtLayout.setObjectName("playerButtLayout")
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.playerButtLayout.addItem(spacerItem5)
+        self.playOrgButt = QtWidgets.QPushButton(DeepDreamSound)
+        self.playOrgButt.setMinimumSize(QtCore.QSize(111, 41))
+        self.playOrgButt.setMaximumSize(QtCore.QSize(16777215, 41))
         self.playOrgButt.setObjectName("playOrgButt")
+        self.playerButtLayout.addWidget(self.playOrgButt)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.playerButtLayout.addItem(spacerItem6)
+        self.stopButt = QtWidgets.QPushButton(DeepDreamSound)
+        self.stopButt.setMinimumSize(QtCore.QSize(111, 41))
+        self.stopButt.setMaximumSize(QtCore.QSize(16777215, 41))
+        self.stopButt.setObjectName("stopButt")
+        self.playerButtLayout.addWidget(self.stopButt)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.playerButtLayout.addItem(spacerItem7)
+        self.playConvButt = QtWidgets.QPushButton(DeepDreamSound)
+        self.playConvButt.setMinimumSize(QtCore.QSize(111, 41))
+        self.playConvButt.setMaximumSize(QtCore.QSize(16777215, 41))
+        self.playConvButt.setObjectName("playConvButt")
+        self.playerButtLayout.addWidget(self.playConvButt)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.playerButtLayout.addItem(spacerItem8)
+        self.verticalLayout_7.addLayout(self.playerButtLayout)
+
+        '''=============================='''
+        '''!        Buttons Setup        !'''
+        '''=============================='''
+
+        self.playConvButt.clicked.connect(self.playDrmNewThread)
         self.playOrgButt.clicked.connect(self.playOrgNewThread)
+        self.stopButt.clicked.connect(self.stop)
+        self.saveDreamButt.clicked.connect(self.new_threadSaveFile)
+        self.filePathButt.clicked.connect(self.new_threadLoadFile)
+        self.startDreamButt.clicked.connect(self.dream)
 
-        self.verticalLayoutWidget = QtWidgets.QWidget(Form)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(40, 100, window_width / 2.2 + 20, window_height / 1.5))
-        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-
-        self.canvas_Org = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.canvas_Org.setContentsMargins(0, 0, 0, 0)
-        self.canvas_Org.setObjectName("canvas_Org")
+        '''=============================='''
+        '''!        Figure Setup        !'''
+        '''=============================='''
 
         self.figure = Figure()
-        self.figure.set_tight_layout(True)
         self.canvas = FigureCanvas(self.figure)
-        self.canvas_Org.addWidget(self.canvas)
+        self.canvasOrg.addWidget(self.canvas)
         self.figure.set_facecolor("black")
         self.ax = self.figure.add_subplot(111)
         self.ax.clear()
@@ -96,8 +155,8 @@ class Ui_Form(object):
         self.ax.set_facecolor("black")
 
         self.figure2 = Figure()
-        self.figure2.set_tight_layout(True)
         self.canvas2 = FigureCanvas(self.figure2)
+        self.canvasConv.addWidget(self.canvas2)
         self.figure2.set_facecolor("black")
         self.ax2 = self.figure2.add_subplot(111)
         self.ax2.clear()
@@ -106,34 +165,28 @@ class Ui_Form(object):
         self.ax2.set_yticks([])
         self.ax2.set_facecolor("black")
 
-        self.verticalLayoutWidget_2 = QtWidgets.QWidget(Form)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(window_width / 2.2 + 80, 100, window_width / 2.2 + 20,
-                                                             window_height / 1.5))
-        self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
+        '''=============================='''
+        '''=============================='''
+        self.audio_playing = False
+        self.audio_loaded = False
+        self.retranslateUi(DeepDreamSound)
+        self.tabWidget.setCurrentIndex(0)
+        QtCore.QMetaObject.connectSlotsByName(DeepDreamSound)
 
-        self.canvas_Conv = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
-        self.canvas_Conv.setContentsMargins(0, 0, 0, 0)
-        self.canvas_Conv.setObjectName("verticalLayout_3")
-
-        self.canvas_Conv.addWidget(self.canvas2)
-
-        self.convButton_2 = QtWidgets.QPushButton(Form)
-        self.convButton_2.setGeometry(QtCore.QRect(window_width / 2 + 120 + window_width / 5, 30, window_width / 5, 51))
-        self.convButton_2.setObjectName("convButton_2")
-        self.convButton_2.clicked.connect(self.new_threadSaveFile)
-
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
+    def retranslateUi(self, DeepDreamSound):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.groupBox.setTitle(_translate("Form", "File path"))
-        self.toolButton.setText(_translate("Form", "..."))
-        self.playConvButt.setText(_translate("Form", "Play Converted"))
-        self.convButton.setText(_translate("Form", "Start Dreaming"))
-        self.playOrgButt.setText(_translate("Form", "Play Original"))
-        self.convButton_2.setText(_translate("Form", "Save Your Dream"))
+        DeepDreamSound.setWindowTitle(_translate("DeepDreamSound", "Deep Dream Sound"))
+        self.filePathButt.setText(_translate("DeepDreamSound", "..."))
+        self.startDreamButt.setText(_translate("DeepDreamSound", "Start Dreaming"))
+        self.saveDreamButt.setText(_translate("DeepDreamSound", "Save Dream"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.filePathTab), _translate("DeepDreamSound", "File path"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.dreamSettingsTab),
+                                  _translate("DeepDreamSound", "Dream settings"))
+        self.label1.setText(_translate("DeepDreamSound", "Original File Spectrogram"))
+        self.label2.setText(_translate("DeepDreamSound", "Your Dream Spectrogram"))
+        self.playOrgButt.setText(_translate("DeepDreamSound", "Play Oryginal"))
+        self.stopButt.setText(_translate("DeepDreamSound", "Stop"))
+        self.playConvButt.setText(_translate("DeepDreamSound", "Play Converted"))
 
     def dream(self):
         try:
@@ -180,6 +233,10 @@ class Ui_Form(object):
             print(sys.exc_info())
         self.canvas2.draw()
 
+    def stop(self):
+        sd.stop()
+        self.audio_playing = False
+
     def new_threadLoadFile(self):
         try:
             _thread.start_new_thread(self.loadFile, ())
@@ -189,7 +246,7 @@ class Ui_Form(object):
     def loadFile(self):
         filename, _ = QFileDialog.getOpenFileName(filter="All Files (*);;Wave or mp3 files (*.wav; *.mp3)",
                                                   initialFilter="Wave or mp3 files (*.wav; *.mp3)")
-        self.lineEdit.setText(filename)
+        self.pathView.setText(filename)
         self.filepath = filename
         self.x, self.sr = librosa.load(filename)
         self.audio_loaded = True
@@ -258,12 +315,10 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    screen_rect = app.desktop().screenGeometry()
-    width, height = screen_rect.width(), screen_rect.height()
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form, width, height)
-    Form.show()
+    DeepDreamSound = QtWidgets.QWidget()
+    ui = Ui_DeepDreamSound()
+    ui.setupUi(DeepDreamSound)
+    DeepDreamSound.show()
     sys.exit(app.exec_())
 
 # TODO: Blokowanie rozciągania/Dynamiczny rozmiar
