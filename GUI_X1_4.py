@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'C:\Users\AXDition\Documents\Qt\QtDesignerProjects\GUI_Test2\GUI_Test3.ui'
+# Author: DeepDreamSound Dolby Group Member - Krystian Kasprow :D
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Code Sceleton Created by: PyQt5 UI code generator 5.9.2
 #
-# WARNING! All changes made in this file will be lost!
 
 import _thread
 import random
@@ -12,20 +10,23 @@ import winsound
 
 import librosa
 import librosa.display
-import matplotlib.pyplot as plt
-from PyQt5 import QtCore, QtGui, QtWidgets
+import scipy.signal
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-import scipy.signal
-import numpy
 
 
 class Ui_Form(object):
+
     def setupUi(self, Form):
+
+        '''===================================   Widgets Setup   ======================================'''
+        '''============================================================================================='''
+
         Form.setObjectName("Form")
         Form.resize(1141, 507)
+
 
         self.groupBox = QtWidgets.QGroupBox(Form)
         self.groupBox.setGeometry(QtCore.QRect(40, 10, 531, 80))
@@ -73,6 +74,7 @@ class Ui_Form(object):
         self.canvas_Org.setContentsMargins(0, 0, 0, 0)
         self.canvas_Org.setObjectName("canvas_Org")
 
+        # Setting plot into
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)
         self.canvas_Org.addWidget(self.canvas)
@@ -121,13 +123,18 @@ class Ui_Form(object):
         self.playOrgButt.setText(_translate("Form", "Play Original"))
         self.convButton_2.setText(_translate("Form", "Save Your Dream"))
 
-    def plot(self):
-        ''' plot some random stuff '''
+
+
+    '''================================   GUI Metods/Handles   ====================================='''
+    '''============================================================================================='''
+
+    def plot(self):  # Function of plotting output signal
+        ''' plot some random stuff for test '''
         # random data
         data = [random.random() for i in range(10)]
 
         # create an axis
-        #self.ax2 = self.figure2.add_subplot(111)
+        # self.ax2 = self.figure2.add_subplot(111)
 
         # discards the old graph
         self.ax2.clear()
@@ -136,34 +143,41 @@ class Ui_Form(object):
         self.ax2.set_yticks([])
 
         # plot data
-        self.ax2.plot(data, '*-')
+        self.ax2.plot(data)
 
         # refresh canvas
         self.canvas2.draw()
 
+    # Function that loads .wave file, and plots the signal
     def loadFile(self):
         filename, _ = QFileDialog.getOpenFileName(filter="All Files (*);;Wave files (*.wav)",
                                                   initialFilter="Wave files (*.wav)")
+        # Setting the line edit to file path
         self.lineEdit.setText(filename)
+
+        # Loading the data from .wave
         self.x, self.sr = librosa.load(filename)
-        xDecim = scipy.signal.decimate(self.x, 35)
-        t = []
-        for x in range(len(xDecim)-1):
-            t.append(x)
-        print(t)
+
+        # Decimating the signal
+        xDecim = scipy.signal.decimate(self.x, 10)
+
+        # Setting the plot view parameters
         self.ax = self.figure.add_subplot(111)
         self.ax.clear()
         self.ax.grid(False)
         self.ax.set_xticks([])
         self.ax.set_yticks([])
         self.ax.set_facecolor("black")
+
+        # Plotting the decimated signal
         try:
-            self.ax.hist(xDecim, t)
+
+            self.ax.plot(xDecim)
         except:
             print(sys.exc_info())
-        #self.ax.hist(xDecim, bins=1000)
         self.canvas.draw()
 
+    # Creating new thread for function self.playOrg()
     def playOrgNewThread(self):
         try:
             _thread.start_new_thread(self.playOrg, ())
@@ -172,6 +186,9 @@ class Ui_Form(object):
 
     def playOrg(self):
         winsound.PlaySound(self.lineEdit.text(), winsound.SND_FILENAME)
+
+    '''============================================================================================='''
+    '''============================================================================================='''
 
 
 if __name__ == "__main__":
@@ -182,4 +199,5 @@ if __name__ == "__main__":
     ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
-    sys.exit(app.exec_())
+sys.exit(app.exec_())
+
