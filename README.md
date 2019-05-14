@@ -7,7 +7,7 @@ The project is inspired by Google DeepDream technique, which enchances the featu
 ## Features
 
 The application will have GUI with an option to load music file (.wav format - or similar if we are able to program the feature). The loaded file could be then processed and as a result the user shall recieve network's impression of the file. The GUI will also consist of:
-* Melgrams for input and output file
+* Spectrograms for input and output file
 * Players for input and output file
 * Load and Save options (at least .wav files)
 * Additional modifiable parameters of the DeepDream generation
