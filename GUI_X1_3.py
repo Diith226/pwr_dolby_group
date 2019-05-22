@@ -11,6 +11,7 @@ import time
 import winsound
 
 import librosa
+import numpy as np
 import librosa.display
 import scipy.signal
 import sounddevice as sd
@@ -143,7 +144,7 @@ class Ui_DeepDreamSound(object):
         '''!        Figure Setup        !'''
         '''=============================='''
 
-        self.figure = Figure()
+        self.figure = Figure(tight_layout=True)
         self.canvas = FigureCanvas(self.figure)
         self.canvasOrg.addWidget(self.canvas)
         self.figure.set_facecolor("black")
@@ -154,7 +155,7 @@ class Ui_DeepDreamSound(object):
         self.ax.set_yticks([])
         self.ax.set_facecolor("black")
 
-        self.figure2 = Figure()
+        self.figure2 = Figure(tight_layout=True)
         self.canvas2 = FigureCanvas(self.figure2)
         self.canvasConv.addWidget(self.canvas2)
         self.figure2.set_facecolor("black")
@@ -218,7 +219,9 @@ class Ui_DeepDreamSound(object):
         self.dreamt_signal = dream_result[0][0]
         self.dreamt_sr = dream_result[0][1]
         self.dreamt = True
-        f, t, Sxx = scipy.signal.spectrogram(self.dreamt_signal, self.dreamt_sr, scaling='spectrum')
+        #f, t, Sxx = scipy.signal.spectrogram(self.dreamt_signal, self.dreamt_sr, scaling='spectrum')
+        S = np.abs(librosa.stft(self.dreamt_signal))
+        S = librosa.power_to_db(S ** 2, ref=np.max)
         self.ax2 = self.figure2.add_subplot(111)
         self.ax2.clear()
         self.ax2.axis('off')
@@ -228,7 +231,7 @@ class Ui_DeepDreamSound(object):
         self.ax2.set_facecolor("black")
         self.ax2.set_autoscale_on(True)
         try:
-            self.ax2.pcolormesh(t, f, Sxx, cmap='gist_heat')
+            self.ax2.pcolormesh(S, cmap='gist_heat')
         except:
             print(sys.exc_info())
         self.canvas2.draw()
@@ -250,7 +253,9 @@ class Ui_DeepDreamSound(object):
         self.filepath = filename
         self.x, self.sr = librosa.load(filename)
         self.audio_loaded = True
-        f, t, Sxx = scipy.signal.spectrogram(self.x, self.sr, scaling='spectrum')
+        #f, t, Sxx = scipy.signal.spectrogram(self.x, self.sr, scaling='spectrum')
+        S = np.abs(librosa.stft(self.x))
+        S = librosa.power_to_db(S**2,ref=np.max)
         self.ax = self.figure.add_subplot(111)
         self.ax.clear()
         self.ax.axis('off')
@@ -260,7 +265,7 @@ class Ui_DeepDreamSound(object):
         self.ax.set_facecolor("black")
         self.ax.set_autoscale_on(True)
         try:
-            self.ax.pcolormesh(t, f, Sxx, cmap='gist_heat')
+            self.ax.imshow(S, cmap='gist_heat', aspect ='auto')
         except:
             print(sys.exc_info())
         self.canvas.draw()
