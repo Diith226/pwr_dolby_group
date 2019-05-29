@@ -241,14 +241,15 @@ class Ui_DeepDreamSound(object):
         self.audio_playing = False
 
     def new_threadLoadFile(self):
+        self.filename, _ = QFileDialog.getOpenFileName(filter="All Files (*);;Wave or mp3 files (*.wav; *.mp3)",
+                                                  initialFilter="Wave or mp3 files (*.wav; *.mp3)")
         try:
             _thread.start_new_thread(self.loadFile, ())
         except:
             print("Error: unable to start thread")
 
     def loadFile(self):
-        filename, _ = QFileDialog.getOpenFileName(filter="All Files (*);;Wave or mp3 files (*.wav; *.mp3)",
-                                                  initialFilter="Wave or mp3 files (*.wav; *.mp3)")
+        filename = self.filename
         self.pathView.setText(filename)
         self.filepath = filename
         self.x, self.sr = librosa.load(filename)
@@ -271,15 +272,15 @@ class Ui_DeepDreamSound(object):
         self.canvas.draw()
 
     def new_threadSaveFile(self):
+        self.savename, _ = QFileDialog.getSaveFileName(filter="Wave (*.wav)",
+                                                  initialFilter="Wave file (*.wav)")
         try:
             _thread.start_new_thread(self.saveFile, ())
         except:
             print("Error: unable to start thread")
 
     def saveFile(self):
-        filename, _ = QFileDialog.getSaveFileName(filter="Wave (*.wav)",
-                                                  initialFilter="Wave file (*.wav)")
-        librosa.output.write_wav(filename, self.dreamt_signal, self.dreamt_sr)
+        librosa.output.write_wav(self.savename, self.dreamt_signal, self.dreamt_sr)
 
     def playOrgNewThread(self):
         try:
