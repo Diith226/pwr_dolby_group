@@ -4,7 +4,7 @@
 **Conda version:** conda 4.6.14  
 **Python version:** Python 3.7.2  
 **Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
-**Action:** Open application, click “Load file” button and highlight cancel button (without clicking it)  
+**Action:** Open application, click **Load file** button and highlight **Cancel** button (without clicking it), or choose a file  
 **Expected result:** Opened file explorer waits until user choose file or decide to cancel   
 **Result:** Application crash  
 **Solved:** No  
@@ -23,7 +23,7 @@ CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)
 **Conda version:** conda 4.6.14  
 **Python version:** Python 3.7.2  
 **Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
-**Action:** Open application, click "Start dreaming" button (without loading file)   
+**Action:** Open application, click **Start dreaming** button (without loading file)   
 **Expected result:** New window informs user to load file first / nothing happens   
 **Result:** Application crash  
 **Solved:** No  
@@ -45,7 +45,7 @@ AttributeError: 'Ui_DeepDreamSound' object has no attribute 'filepath'
 **Conda version:** conda 4.6.14  
 **Python version:** Python 3.7.2  
 **Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
-**Action:** Open application, click “Save dream” button and highlight cancel button (without loading file and start dreaming)  
+**Action:** Open application, click **Save dream** button and highlight cancel button (without loading file and start dreaming)  
 **Expected result:** New window informs user to load file and start dreaming first / nothing happens   
 **Result:** Application crash  
 **Solved:** No  
@@ -105,9 +105,9 @@ QBasicTimer::start: Timers cannot be started from another thread
 **Conda version:** conda 4.6.14  
 **Python version:** Python 3.7.2  
 **Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
-**Action:** Open application, click "Save dream" button, then close file explorer and click "load file" button. Close opened explorer  
+**Action:** Open application, click **Save dream** button, then close file explorer and click **Load file** button. Close opened explorer  
 **Expected result:** Both opened explorers should have same style and can be closed without problems.  
-**Result:** After click "load file" button, file explorer will have another style. Closing it make whole application crash   
+**Result:** After click **Load file** button, file explorer will have another style. Closing it make whole application crash   
 **Solved:** No  
 **Notes:** First style of file explorer looks like linux one, second have windows type  
 
@@ -172,3 +172,14 @@ Traceback (most recent call last):
     self._fh = open(filename, 'rb')
 PermissionError: [Errno 13] Permission denied: 'C:\\Users\\pawel\\Documents\\GitHub\\pwr_dolby_group'
 ```  
+# **Test script 5:**  
+**Author:** Paweł Oberc  
+**Date:** 29.05.2019  
+**Conda version:** conda 4.6.14  
+**Python version:** Python 3.7.2  
+**Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
+**Action:** Open application, click **Save dream** button, then close file explorer and click **Load file** button. Choose file and click **Otwórz** button  
+**Expected result:** Program will crash when user will try to load a file (as in **Test script 1**)  
+**Result:** After click **Load file** button, file explorer will have another style. With second style, file can be loaded, and program   works without crashes  
+**Solved:** No  
+**Notes:** First style of file explorer looks like linux one, second have windows type. Second type of explorer works better in this     case  
