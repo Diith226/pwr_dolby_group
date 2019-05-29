@@ -97,3 +97,78 @@ QBasicTimer::stop: Failed. Possibly trying to stop from a different thread
 QBasicTimer::stop: Failed. Possibly trying to stop from a different thread  
 QBasicTimer::start: Timers cannot be started from another thread  
 ```  
+
+
+# **Test script 4:**  
+**Author:** Paweł Oberc  
+**Date:** 29.05.2019  
+**Conda version:** conda 4.6.14  
+**Python version:** Python 3.7.2  
+**Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
+**Action:** Open application, click "Save dream" button, then close file explorer and click "load file" button. Close opened explorer  
+**Expected result:** Both opened explorers should have same style and can be closed without problems.  
+**Result:** After click "load file" button, file explorer will have another style. Closing it make whole application crash   
+**Solved:** No  
+**Notes:** First style of file explorer looks like linux one, second have windows type  
+
+```python
+CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)
+QFileSystemWatcher: Removable drive notification will not work if there is no QCoreApplication instance.
+QObject::startTimer: Timers can only be used with threads started with QThread
+QObject: Cannot create children for a parent that is in a different thread.
+(Parent is QApplication(0x1b7e0af9170), parent's thread is QThread(0x1b7dc6da4e0), current thread is QThread(0x1b7e126c760)
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QObject::startTimer: Timers can only be used with threads started with QThread
+QObject::startTimer: Timers can only be used with threads started with QThread
+QObject::startTimer: Timers can only be used with threads started with QThread
+QObject::startTimer: Timers can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread
+QObject::startTimer: Timers can only be used with threads started with QThread
+QBasicTimer::stop: Failed. Possibly trying to stop from a different thread
+QBasicTimer::stop: Failed. Possibly trying to stop from a different thread
+QBasicTimer::start: Timers cannot be started from another thread
+Unhandled exception in thread started by <bound method Ui_DeepDreamSound.saveFile of <__main__.Ui_DeepDreamSound object at 0x000001B7CCBBF940>>
+Traceback (most recent call last):
+  File "GUI_X1_3.py", line 378, in saveFile
+    librosa.output.write_wav(filename, self.dreamt_signal, self.dreamt_sr)
+AttributeError: 'Ui_DeepDreamSound' object has no attribute 'dreamt_signal'
+Traceback (most recent call last):
+  File "GUI_X1_3.py", line 97, in run
+    self.GUI.x, self.GUI.sr = librosa.load(filename)
+  File "C:\Users\pawel\Anaconda3\envs\dolby\lib\site-packages\librosa\core\audio.py", line 119, in load
+    with audioread.audio_open(os.path.realpath(path)) as input_file:
+  File "C:\Users\pawel\Anaconda3\envs\dolby\lib\site-packages\audioread\__init__.py", line 80, in audio_open
+    return rawread.RawAudioFile(path)
+  File "C:\Users\pawel\Anaconda3\envs\dolby\lib\site-packages\audioread\rawread.py", line 61, in __init__
+    self._fh = open(filename, 'rb')
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\pawel\\Documents\\GitHub\\pwr_dolby_group'
+```  
