@@ -23,8 +23,8 @@ CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)
 **Conda version:** conda 4.6.14  
 **Python version:** Python 3.7.2  
 **Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
-**Action:** Open application, click "Start dreaming" button (without loading file) 
-**Expected result:** New window informs user to load file first / nothing happens 
+**Action:** Open application, click "Start dreaming" button (without loading file)   
+**Expected result:** New window informs user to load file first / nothing happens   
 **Result:** Application crash  
 **Solved:** No  
 **Notes:** Button can be disabled until user load file 
@@ -37,4 +37,63 @@ Adding an axes using the same arguments as a previous axes currently reuses the 
   "Adding an axes using the same arguments as a previous axes "  
 ath, self.GUI.dreamStream)  
 AttributeError: 'Ui_DeepDreamSound' object has no attribute 'filepath'  
+```  
+
+# **Test script 3:**  
+**Author:** Paweł Oberc  
+**Date:** 29.05.2019  
+**Conda version:** conda 4.6.14  
+**Python version:** Python 3.7.2  
+**Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
+**Action:** Open application, click “Save dream” button and highlight cancel button (without loading file and start dreaming)  
+**Expected result:** New window informs user to load file and start dreaming first / nothing happens   
+**Result:** Application crash  
+**Solved:** No  
+**Notes:** Button can be disabled until user load file 
+
+```python
+CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)  
+QFileSystemWatcher: Removable drive notification will not work if there is no QCoreApplication instance.  
+QObject::startTimer: Timers can only be used with threads started with QThread  
+QObject: Cannot create children for a parent that is in a different thread.  
+(Parent is QApplication(0x16c9bf817d0), parent's thread is QThread(0x16c97b798c0), current thread is QThread(0x16c9c6fddf0)  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QObject::startTimer: Timers can only be used with threads started with QThread  
+QObject::startTimer: Timers can only be used with threads started with QThread  
+QObject::startTimer: Timers can only be used with threads started with QThread  
+QObject::startTimer: Timers can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QBasicTimer::start: QBasicTimer can only be used with threads started with QThread  
+QObject::startTimer: Timers can only be used with threads started with QThread  
+QBasicTimer::stop: Failed. Possibly trying to stop from a different thread  
+QBasicTimer::stop: Failed. Possibly trying to stop from a different thread  
+QBasicTimer::start: Timers cannot be started from another thread  
 ```  
