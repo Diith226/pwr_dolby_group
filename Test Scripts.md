@@ -7,7 +7,7 @@
 **Action:** Open application, click **Load file** button and highlight **Cancel** button (without clicking it), or choose a file  
 **Expected result:** Opened file explorer waits until user choose file or decide to cancel   
 **Result:** Application crash  
-**Solved:** No  
+**Solved:** Yes
 **Notes:** Probably threads problems  
 
 ```python
@@ -26,7 +26,7 @@ CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)
 **Action:** Open application, click **Start dreaming** button (without loading file)   
 **Expected result:** New window informs user to load file first / nothing happens   
 **Result:** Application crash  
-**Solved:** No  
+**Solved:** Yes  
 **Notes:** Button can be disabled until user load file 
 
 ``` python
@@ -48,7 +48,7 @@ AttributeError: 'Ui_DeepDreamSound' object has no attribute 'filepath'
 **Action:** Open application, click **Save dream** button and highlight cancel button (without loading file and start dreaming)  
 **Expected result:** New window informs user to load file and start dreaming first / nothing happens   
 **Result:** Application crash  
-**Solved:** No  
+**Solved:** Yes  
 **Notes:** Button can be disabled until user load file 
 
 ```python
@@ -108,7 +108,7 @@ QBasicTimer::start: Timers cannot be started from another thread
 **Action:** Open application, click **Save dream** button, then close file explorer and click **Load file** button. Close opened explorer  
 **Expected result:** Both opened explorers should have same style and can be closed without problems.  
 **Result:** After click **Load file** button, file explorer will have another style. Closing it make whole application crash   
-**Solved:** No  
+**Solved:** Yes  
 **Notes:** First style of file explorer looks like linux one, second have windows type  
 
 ```python
@@ -181,5 +181,5 @@ PermissionError: [Errno 13] Permission denied: 'C:\\Users\\pawel\\Documents\\Git
 **Action:** Open application, click **Save dream** button, then close file explorer and click **Load file** button. Choose file and click **Otwórz** button  
 **Expected result:** Program will crash when user will try to load a file (as in **Test script 1**)  
 **Result:** After click **Load file** button, file explorer will have another style. With second style, file can be loaded, and program   works without crashes  
-**Solved:** No  
+**Solved:** Yes
 **Notes:** First style of file explorer looks like linux one, second have windows type. Second type of explorer works better in this     case  
