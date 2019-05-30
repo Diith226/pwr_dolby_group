@@ -307,11 +307,12 @@ class Ui_DeepDreamSound(object):
     def playOrg(self):
         if self.audio_loaded:
             if self.audio_playing:
-                sd.stop()
                 self.audio_playing = False
+                sd.stop()
             else:
-                sd.play(self.x, self.sr)
                 self.audio_playing = True
+                sd.play(self.x, self.sr)
+            self.audio_playing = False
         #else:
         #    winsound.PlaySound('SystemExclamation', winsound.SND_FILENAME)
 
@@ -324,11 +325,12 @@ class Ui_DeepDreamSound(object):
     def playDrm(self):
         if self.dreamt:
             if self.audio_playing:
-                sd.stop()
                 self.audio_playing = False
+                sd.stop()
             else:
-                sd.play(self.dreamt_signal, self.dreamt_sr)
                 self.audio_playing = True
+                sd.play(self.dreamt_signal, self.dreamt_sr)
+            self.audio_playing = False
         #else:
         #    winsound.PlaySound('SystemExclamation', winsound.SND_FILENAME)
 
