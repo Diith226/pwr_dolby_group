@@ -8,7 +8,7 @@
 
 import _thread
 import time
-import winsound
+#import winsound
 
 import librosa
 import numpy as np
@@ -170,6 +170,9 @@ class Ui_DeepDreamSound(object):
         '''=============================='''
         self.audio_playing = False
         self.audio_loaded = False
+        self.dreaming = False
+        self.loading = False
+        self.dreamt = False
         self.retranslateUi(DeepDreamSound)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(DeepDreamSound)
@@ -190,12 +193,15 @@ class Ui_DeepDreamSound(object):
         self.playConvButt.setText(_translate("DeepDreamSound", "Play Converted"))
 
     def dream(self):
-        try:
-            self.dreamStream = stream_dream.Dream()
-            _thread.start_new_thread(self.dream_inner, ())
-            _thread.start_new_thread(self.dream_loading, ())
-        except:
-            print("Error: unable to start thread")
+        if not self.dreaming and self.audio_loaded:
+            self.dreaming = True
+            try:
+                self.dreamStream = stream_dream.Dream()
+                _thread.start_new_thread(self.dream_inner, ())
+                _thread.start_new_thread(self.dream_loading, ())
+            except:
+                print("Error: unable to start thread")
+                self.dreaming = False
 
     def dream_loading(self):
         self.ax2 = self.figure2.add_subplot(111)
@@ -235,18 +241,24 @@ class Ui_DeepDreamSound(object):
         except:
             print(sys.exc_info())
         self.canvas2.draw()
+        self.dreaming = False
 
     def stop(self):
         sd.stop()
         self.audio_playing = False
 
     def new_threadLoadFile(self):
-        self.filename, _ = QFileDialog.getOpenFileName(filter="All Files (*);;Wave or mp3 files (*.wav; *.mp3)",
-                                                  initialFilter="Wave or mp3 files (*.wav; *.mp3)")
-        try:
-            _thread.start_new_thread(self.loadFile, ())
-        except:
-            print("Error: unable to start thread")
+        if not self.loading:
+            self.loading = True
+            filename, _ = QFileDialog.getOpenFileName(filter="All Files (*);;Wave or mp3 files (*.wav; *.mp3)",
+                                                      initialFilter="Wave or mp3 files (*.wav; *.mp3)")
+            if filename is not "":
+                self.filename = filename
+                try:
+                    _thread.start_new_thread(self.loadFile, ())
+                except:
+                    self.loading = False
+                    print("Error: unable to start thread")
 
     def loadFile(self):
         filename = self.filename
@@ -270,14 +282,18 @@ class Ui_DeepDreamSound(object):
         except:
             print(sys.exc_info())
         self.canvas.draw()
+        self.loading = False
 
     def new_threadSaveFile(self):
-        self.savename, _ = QFileDialog.getSaveFileName(filter="Wave (*.wav)",
-                                                  initialFilter="Wave file (*.wav)")
-        try:
-            _thread.start_new_thread(self.saveFile, ())
-        except:
-            print("Error: unable to start thread")
+        if self.dreamt:
+            savename, _ = QFileDialog.getSaveFileName(filter="Wave (*.wav)",
+                                                      initialFilter="Wave file (*.wav)")
+            if savename is not "":
+                self.savename = savename
+                try:
+                    _thread.start_new_thread(self.saveFile, ())
+                except:
+                    print("Error: unable to start thread")
 
     def saveFile(self):
         librosa.output.write_wav(self.savename, self.dreamt_signal, self.dreamt_sr)
@@ -296,8 +312,8 @@ class Ui_DeepDreamSound(object):
             else:
                 sd.play(self.x, self.sr)
                 self.audio_playing = True
-        else:
-            winsound.PlaySound('SystemExclamation', winsound.SND_FILENAME)
+        #else:
+        #    winsound.PlaySound('SystemExclamation', winsound.SND_FILENAME)
 
     def playDrmNewThread(self):
         try:
@@ -313,8 +329,8 @@ class Ui_DeepDreamSound(object):
             else:
                 sd.play(self.dreamt_signal, self.dreamt_sr)
                 self.audio_playing = True
-        else:
-            winsound.PlaySound('SystemExclamation', winsound.SND_FILENAME)
+        #else:
+        #    winsound.PlaySound('SystemExclamation', winsound.SND_FILENAME)
 
 
 if __name__ == "__main__":
