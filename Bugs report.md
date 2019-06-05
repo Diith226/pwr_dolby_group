@@ -1,4 +1,4 @@
-# **Test script 1:**  
+# **Bug 1:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -17,7 +17,7 @@ QObject: Cannot create children for a parent that is in a different thread.
 CoCreateInstance failed (Operacja uko˝czona pomyťlnie.)
 ```  
 
-# **Test script 2:**  
+# **Bug 2:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -39,7 +39,7 @@ ath, self.GUI.dreamStream)
 AttributeError: 'Ui_DeepDreamSound' object has no attribute 'filepath'  
 ```  
 
-# **Test script 3:**  
+# **Bug 3:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -99,7 +99,7 @@ QBasicTimer::start: Timers cannot be started from another thread
 ```  
 
 
-# **Test script 4:**  
+# **Bug 4:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -172,7 +172,7 @@ Traceback (most recent call last):
     self._fh = open(filename, 'rb')
 PermissionError: [Errno 13] Permission denied: 'C:\\Users\\pawel\\Documents\\GitHub\\pwr_dolby_group'
 ```  
-# **Test script 5:**  
+# **Bug 5:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -183,3 +183,40 @@ PermissionError: [Errno 13] Permission denied: 'C:\\Users\\pawel\\Documents\\Git
 **Result:** After click **Load file** button, file explorer will have another style. With second style, file can be loaded, and program   works without crashes  
 **Solved:** Yes
 **Notes:** First style of file explorer looks like linux one, second have windows type. Second type of explorer works better in this     case  
+
+
+# **Bug 6:**  
+**Author:** Krystian Kasprów 
+**Date:** 05.06.2019  
+**Conda version:** conda 4.6.11  
+**Python version:** Python 3.7.3 
+**Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
+**Precedure:** Open application ---> click **Load file** button ---> choose file (wave) and click **Otwórz** button ---> click **Start Deaming**
+**Expected result:** Program should start the dreaming process and the progress bar sounld apear. 
+**Result:** After click **Start Dreaming** button, error apears.
+**Solved:** No
+**Notes:** Error apears onlnly in command line, and application still runs after it happends.
+
+C:\Users\X1carbonTest\Anaconda3\envs\dolby\python.exe C:/Users/X1carbonTest/Desktop/DolbyPro/DolbyDream/GUI_X1_3.py
+C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\matplotlib\figure.py:98: MatplotlibDeprecationWarning: 
+Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+  "Adding an axes using the same arguments as a previous axes "
+Unhandled exception in thread started by <bound method Ui_DeepDreamSound.dream_inner of <__main__.Ui_DeepDreamSound object at 0x000001FED651B8D0>>
+Traceback (most recent call last):
+  File "C:/Users/X1carbonTest/Desktop/DolbyPro/DolbyDream/GUI_X1_3.py", line 224, in dream_inner
+    dream_result = deep_dream.backend(self.filepath, self.dreamStream)
+  File "C:\Users\X1carbonTest\Desktop\DolbyPro\DolbyDream\deep_dream.py", line 240, in backend
+    pipe = get_processing_pipeline(use_better_slower_model=False, dreamstream=dreamstream)
+  File "C:\Users\X1carbonTest\Desktop\DolbyPro\DolbyDream\deep_dream.py", line 232, in get_processing_pipeline
+    stream=dreamstream
+  File "C:\Users\X1carbonTest\Desktop\DolbyPro\DolbyDream\deep_dream.py", line 94, in __init__
+    self._net.load_params(f_params=self._model_path)
+  File "C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\skorch\net.py", line 1582, in load_params
+    state_dict = _get_state_dict(f_params)
+  File "C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\skorch\net.py", line 1556, in _get_state_dict
+    return torch.load(f, map_location=map_location)
+  File "C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\torch\serialization.py", line 368, in load
+    return _load(f, map_location, pickle_module)
+  File "C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\torch\serialization.py", line 532, in _load
+    magic_number = pickle_module.load(f)
+_pickle.UnpicklingError: invalid load key, 'v'.
