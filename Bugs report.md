@@ -197,6 +197,7 @@ PermissionError: [Errno 13] Permission denied: 'C:\\Users\\pawel\\Documents\\Git
 **Solved:** No
 **Notes:** Error apears onlnly in command line, and application still runs after it happends.
 
+```python
 C:\Users\X1carbonTest\Anaconda3\envs\dolby\python.exe C:/Users/X1carbonTest/Desktop/DolbyPro/DolbyDream/GUI_X1_3.py
 C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\matplotlib\figure.py:98: MatplotlibDeprecationWarning: 
 Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
@@ -220,3 +221,4 @@ Traceback (most recent call last):
   File "C:\Users\X1carbonTest\Anaconda3\envs\dolby\lib\site-packages\torch\serialization.py", line 532, in _load
     magic_number = pickle_module.load(f)
 _pickle.UnpicklingError: invalid load key, 'v'.
+```  
