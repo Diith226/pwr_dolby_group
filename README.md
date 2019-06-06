@@ -13,6 +13,7 @@ The application will have GUI with an option to load music file (.wav format - o
 * Additional modifiable parameters of the DeepDream generation
 
 ## How To
+* Git-LFS is needed to clone the repository
 * Install the anaconda from the anaconda page (https://www.anaconda.com/distribution/)
 * Install the environment from the .yml file
 
