@@ -1,4 +1,4 @@
-# **Bug 1:**  
+# **Test 1:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -7,7 +7,7 @@
 **Action:** Open application, click **Load file** button and highlight **Cancel** button (without clicking it), or choose a file  
 **Expected result:** Opened file explorer waits until user choose file or decide to cancel   
 
-# **Bug 2:**  
+# **Test 2:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -16,7 +16,7 @@
 **Action:** Open application, click **Start dreaming** button (without loading file)   
 **Expected result:** New window informs user to load file first / nothing happens   
 
-# **Bug 3:**  
+# **Test 3:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
@@ -26,7 +26,7 @@
 **Expected result:** New window informs user to load file and start dreaming first / nothing happens   
 
 
-# **Bug 4:**  
+# **Test 4:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
