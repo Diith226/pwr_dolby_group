@@ -12,6 +12,24 @@ The application will have GUI with an option to load music file (.wav format - o
 * Load and Save options (at least .wav files)
 * Additional modifiable parameters of the DeepDream generation
 
+## How To
+* Install the anaconda from the anaconda page (https://www.anaconda.com/distribution/)
+* Install the environment from the .yml file
+
+```
+conda env create -f environment.yml
+```
+
+* Run the app
+
+```
+python GUI_X1_3.py
+```
+
+* Load the music file by clicking on the ... button -> The file will be loaded, and the spectrogram created
+* Click start dreaming button to start the dream process
+
+
 ## Our Team
 * Kacper Kania
 * Krystian Kasprów
