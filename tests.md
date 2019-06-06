@@ -34,7 +34,7 @@
 **Environment:** https://github.com/226776/pwr_dolby_group/blob/master/env.yml  
 **Action:** Open application, click **Save dream** button, then close file explorer and click **Load file** button. Close opened explorer  
 **Expected result:** Both opened explorers should have same style and can be closed without problems.  
-# **Bug 5:**  
+# **Test 5:**  
 **Author:** Paweł Oberc  
 **Date:** 29.05.2019  
 **Conda version:** conda 4.6.14  
