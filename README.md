@@ -10,7 +10,6 @@ The application will have GUI with an option to load music file (.wav format - o
 * Spectrograms for input and output file
 * Players for input and output file
 * Load and Save options (at least .wav files)
-* Additional modifiable parameters of the DeepDream generation
 
 ## How To
 * Git-LFS is needed to clone the repository
