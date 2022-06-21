@@ -44,7 +44,7 @@ mock==2.0.0
 nbconvert==5.4.1
 nbformat==4.4.0
 numba==0.43.0
-numpy==1.16.2
+numpy==1.22.0
 olefile==0.46
 opencv-python==4.1.0.25
 packaging==19.0
