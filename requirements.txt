@@ -41,7 +41,7 @@ mistune==0.8.4
 mkl-fft==1.0.10
 mkl-random==1.0.2
 mock==2.0.0
-nbconvert==5.4.1
+nbconvert==6.5.1
 nbformat==4.4.0
 numba==0.43.0
 numpy==1.16.2
